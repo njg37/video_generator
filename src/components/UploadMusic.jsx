@@ -22,7 +22,6 @@ const UploadMusic = () => {
       try {
         setIsTokenLoading(true);
         const tokenResponse = await getSpotifyToken();
-        console.log("Spotify Token Fetched:", tokenResponse);
         setAccessToken(tokenResponse.access_token);
       } catch (error) {
         console.error("Error fetching Spotify token:", error);
@@ -39,7 +38,6 @@ const UploadMusic = () => {
     const file = event.target.files[0];
     if (file && file.type.startsWith("audio/")) {
       setSelectedAudio(file);
-      console.log("Selected audio file:", file.name);
     } else {
       alert("Please select a valid audio file.");
     }
@@ -54,7 +52,6 @@ const UploadMusic = () => {
     try {
       setIsUploading(true);
       const result = await uploadMusicFile(selectedAudio);
-      console.log("Audio uploaded successfully:", result);
       setUploadedAudioFile(result.file);
       alert("Audio uploaded successfully!");
     } catch (error) {
@@ -76,20 +73,13 @@ const UploadMusic = () => {
       return;
     }
 
-    console.log("Searching Spotify with query:", spotifySearchQuery);
-    console.log("Access Token for Search:", accessToken);
-
     try {
       const results = await searchSpotifySongs(spotifySearchQuery, accessToken);
-      console.log("Spotify API response:", results);
       setSpotifyResults(results);
     } catch (error) {
       console.error("Error searching Spotify:", error);
-      
-      // More detailed error handling
-      if (error.response && error.response.status === 401) {
-        alert("Spotify authentication expired. Attempting to refresh token...");
-        // Implement token refresh logic here if needed
+      if (error.response?.status === 401) {
+        alert("Spotify authentication expired. Please refresh the page to fetch a new token.");
       } else {
         alert("Failed to fetch Spotify songs. Please try again.");
       }
@@ -117,7 +107,7 @@ const UploadMusic = () => {
     <div className="p-6 max-w-lg mx-auto bg-white shadow-md rounded-lg">
       <h2 className="text-2xl font-bold mb-6 text-center">Upload Music & Select Theme</h2>
 
-      {/* Audio Upload Section - Unchanged */}
+      {/* Audio Upload Section */}
       <div className="mb-6">
         <h3 className="text-xl font-semibold mb-4">1. Upload Your Audio File</h3>
         <input
@@ -145,7 +135,7 @@ const UploadMusic = () => {
         )}
       </div>
 
-      {/* Spotify Search Section - Minor Updates */}
+      {/* Spotify Search Section */}
       <div className="mb-6">
         <h3 className="text-xl font-semibold mb-4">2. Search Music on Spotify</h3>
         <input
@@ -189,7 +179,7 @@ const UploadMusic = () => {
         )}
       </div>
 
-      {/* Theme Selector Section - Unchanged */}
+      {/* Theme Selector Section */}
       <div className="mb-6">
         <h3 className="text-xl font-semibold mb-4">3. Select a Theme</h3>
         <div className="grid grid-cols-2 gap-4">

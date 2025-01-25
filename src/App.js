@@ -11,15 +11,19 @@ import FinalOutput from "./components/FinalOutput";
 const App = () => {
   return (
     <Router>
+      {/* Navbar displayed on all pages */}
       <Navbar />
-      <Routes>
-        <Route path="/" element={<UploadMusic />} />
-        <Route path="/theme-selector" element={<ThemeSelector />} />
-        <Route path="/video-customizer" element={<VideoCustomizer />} />
-        <Route path="/set-effects" element={<SetEffects />} />
-        <Route path="/preview" element={<PreviewPlayer />} />
-        <Route path="/final-output" element={<FinalOutput />} />
-      </Routes>
+      <div className="app-container p-4">
+        <Routes>
+          {/* Routes for each page */}
+          <Route path="/" element={<UploadMusic />} />
+          <Route path="/theme-selector" element={<ThemeSelector />} />
+          <Route path="/video-customizer" element={<VideoCustomizer />} />
+          <Route path="/set-effects" element={<SetEffects />} />
+          <Route path="/preview" element={<PreviewPlayer />} />
+          <Route path="/final-output" element={<FinalOutput />} />
+        </Routes>
+      </div>
     </Router>
   );
 };
