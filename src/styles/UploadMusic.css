@@ -1,0 +1,75 @@
+/* UploadMusic.css */
+.upload-music-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #7effd7, #ff758c);
+    padding: 16px;
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+  }
+  
+  .upload-music-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    color: #333;
+  }
+  
+  .upload-music-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #ff478b;
+  }
+  
+  .upload-music-input {
+    width: 100%;
+    padding: 10px;
+    border: 2px dashed #ff478b;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .upload-music-input:hover {
+    border-color: #ff7eb3;
+  }
+  
+  .upload-music-error {
+    color: #e63946;
+    font-size: 0.875rem;
+    margin-bottom: 16px;
+  }
+  
+  .upload-music-button {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #ff478b, #7effe0);
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .upload-music-button:hover:not(.disabled) {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #ff7eb3, #ff478b);
+  }
+  
+  .upload-music-button.disabled {
+    background-color: #d1d5db;
+    cursor: not-allowed;
+    color: #6b7280;
+  }
+  

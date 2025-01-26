@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getThemes } from '../utils/api';
+import '../styles/ThemeSelector.css';
 
 const ThemeSelector = ({ onThemeSelect }) => {
   const [themes, setThemes] = useState([
@@ -36,26 +37,20 @@ const ThemeSelector = ({ onThemeSelect }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h2 className="text-3xl font-bold text-center mb-8">Select Video Theme</h2>
-      <div className="theme-selector grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+    <div className="theme-selector-container">
+      <h2 className="theme-selector-title">Select Video Theme</h2>
+      <div className="theme-selector-grid">
         {themes.map(theme => (
           <div
             key={theme.id}
             onClick={() => handleThemeSelect(theme)}
-            className={`
-              theme-option cursor-pointer p-4 border rounded 
-              hover:bg-gray-100 transition-all duration-300
-              ${selectedTheme?.id === theme.id 
-                ? 'border-blue-500 bg-blue-50' 
-                : 'border-gray-300'}
-            `}
+            className={`theme-option ${selectedTheme?.id === theme.id ? 'selected' : ''}`}
           >
-            <h3 className="text-center text-xl font-semibold mb-4">{theme.name}</h3>
+            <h3 className="theme-option-title">{theme.name}</h3>
             {theme.videoUrl && (
               <video 
                 src={theme.videoUrl} 
-                className="w-full h-32 object-cover rounded" 
+                className="theme-option-video" 
                 muted 
                 loop 
                 playsInline

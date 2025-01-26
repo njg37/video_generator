@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { generateVideo } from '../utils/api';
+import '../styles/VideoCustomizer.css';
 
 const VideoCustomizer = ({ song, theme, onVideoGenerate }) => {
   const [effects, setEffects] = useState({
@@ -20,7 +21,7 @@ const VideoCustomizer = ({ song, theme, onVideoGenerate }) => {
     try {
       const result = await generateVideo(song, theme, effects);
       const generatedVideoPath = result.video;
-      
+
       setGeneratedVideo(generatedVideoPath);
       onVideoGenerate(generatedVideoPath);
       navigate('/preview');
@@ -33,28 +34,34 @@ const VideoCustomizer = ({ song, theme, onVideoGenerate }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center p-8">
-      <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Customize Your Video</h2>
-        
-        <div className="space-y-4">
-          <div className="flex items-center">
+    <div className="customizer-container">
+      <div className="customizer-card">
+        <h2 className="customizer-title">🎨 Customize Your Video</h2>
+
+        <div className="customizer-options">
+          <div className="option-item">
             <input
               type="checkbox"
               id="beatSync"
               checked={effects.beatSync}
-              onChange={(e) => setEffects({...effects, beatSync: e.target.checked})}
-              className="mr-2"
+              onChange={(e) =>
+                setEffects({ ...effects, beatSync: e.target.checked })
+              }
+              className="checkbox-input"
             />
-            <label htmlFor="beatSync">Beat Synchronization</label>
+            <label htmlFor="beatSync" className="checkbox-label">
+              🔊 Beat Synchronization
+            </label>
           </div>
 
-          <div>
-            <label className="block mb-2">Color Pattern:</label>
+          <div className="option-item">
+            <label className="dropdown-label">🎨 Color Pattern:</label>
             <select
               value={effects.colorPattern}
-              onChange={(e) => setEffects({...effects, colorPattern: e.target.value})}
-              className="border p-2 w-full rounded"
+              onChange={(e) =>
+                setEffects({ ...effects, colorPattern: e.target.value })
+              }
+              className="dropdown-select"
             >
               <option value="">Select Color Pattern</option>
               <option value="vibrant">Vibrant</option>
@@ -66,17 +73,12 @@ const VideoCustomizer = ({ song, theme, onVideoGenerate }) => {
           <button
             onClick={handleGenerateVideo}
             disabled={isLoading}
-            className={`
-              w-full p-3 rounded 
-              ${isLoading 
-                ? 'bg-gray-400 cursor-not-allowed' 
-                : 'bg-blue-500 text-white hover:bg-blue-600'}
-            `}
+            className={`generate-btn ${isLoading ? 'loading' : ''}`}
           >
-            {isLoading ? 'Generating...' : 'Generate Preview'}
+            {isLoading ? '🎥 Generating...' : '✨ Generate Preview'}
           </button>
 
-          {error && <div className="text-red-500 mt-4 text-center">{error}</div>}
+          {error && <div className="error-message">{error}</div>}
         </div>
       </div>
     </div>

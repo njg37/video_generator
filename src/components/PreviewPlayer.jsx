@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import '../styles/PreviewPlayer.css';
 
 const PreviewPlayer = ({ video }) => {
   const navigate = useNavigate();
@@ -32,14 +33,14 @@ const PreviewPlayer = ({ video }) => {
   }, [video]);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="max-w-xl w-full bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-2xl font-bold mb-4 text-center">Preview Your Video</h2>
+    <div className="preview-container">
+      <div className="preview-card">
+        <h2 className="preview-title">Preview Your Video</h2>
         
-        <div className="mb-6">
+        <div>
           <video
             ref={videoRef}
-            className="w-full rounded shadow-lg"
+            className="preview-video"
             controls
             preload="auto"
           >
@@ -47,16 +48,16 @@ const PreviewPlayer = ({ video }) => {
           </video>
         </div>
         
-        <div className="flex justify-between space-x-4">
+        <div className="preview-buttons">
           <button
             onClick={handleRegenerate}
-            className="flex-1 px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+            className="preview-button preview-button--regenerate"
           >
             Regenerate
           </button>
           <button
             onClick={handleConfirm}
-            className="flex-1 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            className="preview-button preview-button--confirm"
           >
             Confirm
           </button>
