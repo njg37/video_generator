@@ -1,94 +1,48 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api';
 
-// Upload music file
-export const uploadMusicFile = async (file) => {
+export const uploadSong = async (file) => {
+  const formData = new FormData();
+  formData.append('file', file);  // Changed from 'song' to 'file'
+  
+  try {
+    const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Song upload error:', error.response ? error.response.data : error.message);
+    throw error;
+  }
+};
+
+export const getThemes = async (themeName = 'default') => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/theme/${themeName}`);
+    return response.data;
+  } catch (error) {
+    console.error('Themes fetch error:', error);
+    throw error;
+  }
+};
+
+export const generateVideo = async (uploadResponse, theme, effects) => {
   try {
     const formData = new FormData();
-    formData.append("file", file);
-
-    const response = await axios.post(`${API_BASE_URL}/api/upload`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+    
+    // Extract filename from upload response
+    formData.append('audioFilename', uploadResponse.file);
+    formData.append('theme', theme.id || theme);
+    
+    const response = await axios.post(`${API_BASE_URL}/generate`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
     });
-
-    console.log("Music file upload response:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Error uploading music file:", error.response?.data || error.message);
-    throw error;
-  }
-};
-
-// Generate video
-export const generateVideo = async (audioFile, theme) => {
-  try {
-    const response = await axios.post(
-      `${API_BASE_URL}/api/generate`,
-      { audioFile, theme },
-      {
-        headers: { "Content-Type": "application/json" },
-      }
+    console.error('Video generation error:', 
+      error.response ? error.response.data : error.message
     );
-
-    console.log("Video generation response:", response.data);
-    return response.data;
-  } catch (error) {
-    console.error("Error generating video:", error.response?.data || error.message);
-    throw error;
-  }
-};
-
-// Fetch Spotify token
-export const getSpotifyToken = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/api/spotify/login`);
-    console.log("Spotify Token Response:", response.data);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching Spotify token:", error.response?.data || error.message);
-    throw error;
-  }
-};
-
-// Search for songs on Spotify
-export const searchSpotifySongs = async (query, accessToken) => {
-  try {
-    if (!query.trim()) {
-      throw new Error("Search query is required.");
-    }
-    const response = await axios.get(
-      `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=10`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    return response.data.tracks.items;
-  } catch (error) {
-    console.error("Error searching Spotify songs:", error.response?.data || error.message);
-    throw error;
-  }
-};
-
-// Suggest songs based on a seed track
-export const getSuggestedSongs = async (seedTrackId, accessToken) => {
-  try {
-    if (!seedTrackId) {
-      throw new Error("Seed track ID is required.");
-    }
-    const response = await axios.get(
-      `https://api.spotify.com/v1/recommendations?seed_tracks=${seedTrackId}&limit=10`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    return response.data.tracks;
-  } catch (error) {
-    console.error("Error fetching suggested songs:", error.response?.data || error.message);
     throw error;
   }
 };

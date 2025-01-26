@@ -1,31 +1,41 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import UploadMusic from "./components/UploadMusic";
-import ThemeSelector from "./components/ThemeSelector";
-import VideoCustomizer from "./components/VideoCustomizer";
-import SetEffects from "./components/SetEffects";
-import PreviewPlayer from "./components/PreviewPlayer";
-import FinalOutput from "./components/FinalOutput";
+import React, { useState } from 'react';
+import UploadMusic from './components/UploadMusic';
+import ThemeSelector from './components/ThemeSelector';
+import VideoCustomizer from './components/VideoCustomizer';
+import './App.css';
+import './index.css';
 
-const App = () => {
+function App() {
+  const [uploadedSong, setUploadedSong] = useState(null);
+  const [selectedTheme, setSelectedTheme] = useState(null);
+
+  // const handleSongUpload = (song) => {
+  //   setUploadedSong(song);
+  // };
+  const handleSongUpload = (song) => {
+    // Ensure we're passing the full file object or filename
+    setUploadedSong(song.name || song); 
+  };
+
+  const handleThemeSelect = (theme) => {
+    setSelectedTheme(theme);
+  };
+
   return (
-    <Router>
-      {/* Navbar displayed on all pages */}
-      <Navbar />
-      <div className="app-container p-4">
-        <Routes>
-          {/* Routes for each page */}
-          <Route path="/" element={<UploadMusic />} />
-          <Route path="/theme-selector" element={<ThemeSelector />} />
-          <Route path="/video-customizer" element={<VideoCustomizer />} />
-          <Route path="/set-effects" element={<SetEffects />} />
-          <Route path="/preview" element={<PreviewPlayer />} />
-          <Route path="/final-output" element={<FinalOutput />} />
-        </Routes>
-      </div>
-    </Router>
+    <div className="App">
+      <h1>VideoVerse - Song Background Generator</h1>
+      <UploadMusic onSongUpload={handleSongUpload} />
+      {uploadedSong && (
+        <ThemeSelector onThemeSelect={handleThemeSelect} />
+      )}
+      {uploadedSong && selectedTheme && (
+        <VideoCustomizer 
+          song={uploadedSong} 
+          theme={selectedTheme} 
+        />
+      )}
+    </div>
   );
-};
+}
 
 export default App;
