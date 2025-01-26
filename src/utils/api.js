@@ -31,17 +31,19 @@ export const generateVideo = async (uploadResponse, theme, effects) => {
   try {
     const formData = new FormData();
     
-    // Extract filename from upload response
-    formData.append('audioFilename', uploadResponse.file);
-    formData.append('theme', theme.id || theme);
+    // Check if uploadResponse is a File or an object with file info
+    const audioFilename = uploadResponse.file || uploadResponse.name;
     
+    formData.append('audioFilename', audioFilename);
+    formData.append('theme', theme.id || theme);
+
     const response = await axios.post(`${API_BASE_URL}/generate`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
     return response.data;
   } catch (error) {
     console.error('Video generation error:', 
-      error.response ? error.response.data : error.message
+       error.response ? error.response.data : error.message
     );
     throw error;
   }

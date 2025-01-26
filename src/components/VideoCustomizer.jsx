@@ -27,19 +27,25 @@ const VideoCustomizer = ({ song, theme }) => {
   // };
   const handleGenerateVideo = async () => {
     try {
-      console.log('Generating video with:', { 
-        song, 
-        songType: typeof song, 
-        theme 
+      console.log('Generating video with:', {
+         song,
+         songType: typeof song,
+         theme
       });
       
-      const result = await generateVideo(song, theme, effects);
+      // Ensure song is passed correctly
+      const result = await generateVideo(
+        song,  // Pass entire song/upload object 
+        theme, 
+        effects
+      );
+      
       setGeneratedVideo(result.video);
     } catch (error) {
       console.error('Detailed error:', error);
-      setError(error.message);
+      setError(error.message || 'Video generation failed');
     }
-  };
+ };
 
   return (
     <div className="video-customizer space-y-4">
@@ -73,14 +79,16 @@ const VideoCustomizer = ({ song, theme }) => {
       
       {error && <div className="text-red-500">{error}</div>}
       {generatedVideo && (
-  <video 
-    src={`/uploads/${generatedVideo}`} 
-    controls 
-    className="w-full"
+  <video
+    src={`http://localhost:5000/uploads/${generatedVideo}`}
+    controls
     onError={(e) => {
-      console.error('Video error:', e);
-      // Optional: Add fallback or error message
+      console.error('Video load details:', {
+        src: `http://localhost:5000/uploads/${generatedVideo}`,
+        error: e
+      });
     }}
+    className="w-full"
   />
 )}
     </div>
