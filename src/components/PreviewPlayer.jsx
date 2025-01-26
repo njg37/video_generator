@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const PreviewPlayer = () => {
+const PreviewPlayer = ({ video }) => {
   const navigate = useNavigate();
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -17,45 +17,50 @@ const PreviewPlayer = () => {
     }
   };
 
-  return (
-    <div className="p-6 max-w-xl mx-auto bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4 text-center">Preview Your Video</h2>
+  const handleRegenerate = () => {
+    navigate("/customize");
+  };
 
-      {/* Video Preview Section */}
-      <div className="mb-6">
-        <video
-          ref={videoRef}
-          className="w-full rounded shadow-lg"
-          controls={false}
-          preload="auto"
-        >
-          <source src="your-video-source.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div className="mt-4 flex justify-center">
-          <button
-            onClick={togglePlayPause}
-            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+  const handleConfirm = () => {
+    navigate("/final");
+  };
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.src = `http://localhost:5000/uploads/${video}`;
+    }
+  }, [video]);
+
+  return (
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+      <div className="max-w-xl w-full bg-white shadow-md rounded-lg p-6">
+        <h2 className="text-2xl font-bold mb-4 text-center">Preview Your Video</h2>
+        
+        <div className="mb-6">
+          <video
+            ref={videoRef}
+            className="w-full rounded shadow-lg"
+            controls
+            preload="auto"
           >
-            {isPlaying ? "Pause" : "Play"}
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        
+        <div className="flex justify-between space-x-4">
+          <button
+            onClick={handleRegenerate}
+            className="flex-1 px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+          >
+            Regenerate
+          </button>
+          <button
+            onClick={handleConfirm}
+            className="flex-1 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+          >
+            Confirm
           </button>
         </div>
-      </div>
-
-      {/* Navigation Buttons */}
-      <div className="flex justify-between">
-        <button
-          onClick={() => navigate("/video-customizer")}
-          className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-        >
-          Back
-        </button>
-        <button
-          onClick={() => navigate("/final-output")}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Next
-        </button>
       </div>
     </div>
   );
