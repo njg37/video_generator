@@ -33,15 +33,17 @@ git clone https://github.com/njg37/video_generator.git
 cd video_generator  
 npm install  
 npm start  
-Backend Setup
 
+Backend Setup
 git clone https://github.com/njg37/video_generator_backend.git  
 cd video_generator_backend  
 npm install  
 node server.js  
+
 📦 Deployment
 Frontend: GitHub Pages
 Backend: Render
+
 📜 API Routes (Backend)
 Endpoint	Method	Description
 /upload	POST	Uploads the song file
@@ -49,6 +51,7 @@ Endpoint	Method	Description
 /generate	POST	Processes video with selected theme
 /preview	GET	Returns preview link
 /final	GET	Provides final video output
+
 🎥 Usage Flow
 1️⃣ Upload a song 🎵
 2️⃣ Select a theme 🎨
