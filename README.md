@@ -34,7 +34,7 @@ cd video_generator
 npm install  
 npm start  
 Backend Setup
-```bash
+
 git clone https://github.com/njg37/video_generator_backend.git  
 cd video_generator_backend  
 npm install  
