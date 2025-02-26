@@ -28,7 +28,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <h1 className="text-3xl font-bold text-center my-4">VideoVerse - Song Background Generator</h1>
+        <h1 className="text-3xl font-bold text-center my-4">Song Background Generator</h1>
         
         <Routes>
           <Route 
